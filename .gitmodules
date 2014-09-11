@@ -1,0 +1,6 @@
+[submodule "zookeeper"]
+	path = zookeeper
+	url = https://github.com/saltstack-formulas/zookeeper-formula.git
+[submodule "vagrant/zookeeper"]
+	path = vagrant/zookeeper
+	url = https://github.com/saltstack-formulas/zookeeper-formula.git
