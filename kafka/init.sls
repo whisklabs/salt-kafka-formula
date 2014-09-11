@@ -8,15 +8,6 @@ kafka:
     - groups:
       - kafka
 
-kafka-directories:
-  file.directory:
-    - user: kafka
-    - group: kafka
-    - mode: 755
-    - makedirs: True
-    - names:
-      - {{ kafka.data_dir }}
-
 install-kafka-dist:
   cmd.run:
     - name: curl -L '{{ kafka.source_url }}' | tar xz
@@ -34,7 +25,7 @@ install-kafka-dist:
 {{ kafka.real_home }}:
   file.directory:
     - user: kafka
-    - group: root
+    - group: kafka
     - recurse:
       - user
       - group

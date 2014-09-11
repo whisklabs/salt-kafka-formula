@@ -15,7 +15,8 @@ grains:
     - salt-master
     - zookeeper
   kafka:
-    broker_id: 0
+    config:
+      broker_id: 0
 EOF
 
   # Configure the salt-master

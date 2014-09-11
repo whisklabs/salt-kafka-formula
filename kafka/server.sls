@@ -1,20 +1,27 @@
-{%- from 'kafka/settings.sls' import kafka with context %}
+{%- from 'kafka/settings.sls' import kafka, config with context %}
 
 include:
   - kafka
+
+kafka-directories:
+  file.directory:
+    - user: kafka
+    - group: kafka
+    - mode: 755
+    - makedirs: True
+    - names:
+{% for log_dir in config.log_dirs %}
+      - {{ log_dir }}
+{% endfor %}
 
 kafka-server-conf:
   file.managed:
     - name: {{ kafka.real_home }}/config/server.properties
     - source: salt://kafka/config/server.properties
-    - user: root
-    - group: root
+    - user: kafka
+    - group: kafka
     - mode: 644
     - template: jinja
-    - context:
-      broker_id: {{ kafka.broker_id }}
-      hostname: {{ grains.fqdn }}
-      zookeeper_connect: {{ kafka.zookeeper_connect }}
     - require:
       - cmd: install-kafka-dist
 
@@ -32,5 +39,6 @@ kafka-service:
   service.running:
     - name: kafka
     - enable: true
-    - require:
+    - watch:
+      - file: kafka-server-conf
       - file: /etc/init/kafka.conf

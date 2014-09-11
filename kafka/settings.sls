@@ -4,7 +4,6 @@
 {% set gc = g.get('config', {}) %}
 
 # these are global - hence pillar-only
-{%- set zookeeper_connect = pillar.zookeeper_connect %}
 {%- set prefix            = p.get('prefix', '/usr/lib/kafka') %}
 
 {%- set version           = g.get('version', p.get('version', '0.8.1.1')) %}
@@ -16,24 +15,24 @@
 {%- set source_url   = g.get('source_url', p.get('source_url', default_url)) %}
 
 # bind_address is only supported as a grain, because it has to be host-specific
-{%- set bind_address = gc.get('bind_address', '0.0.0.0') %}
-{%- set data_dir     = gc.get('data_dir', pc.get('data_dir', '/tmp/data')) %}
 
-{%- set broker_id    = g.get('broker_id', p.broker_id) %}
+
+{%- set config = {
+  'broker_id': gc.get('broker_id', pc.get('broker_id', 0)),
+  'port': gc.get('port', pc.get('port', 9092)),
+  'zookeeper_connect': gc.get('zookeeper_connect', pc.get('zookeeper_connect', 'localhost:2181')),
+  'log_dirs': gc.get('log_dirs', pc.get('log_dirs', ['/tmp/kafka-logs'])),
+  'num_partitions': gc.get('num_partitions', pc.get('num_partitions', 2)),
+  'host_name': gc.get('host_name', pc.host_name)
+  } %}
 
 {%- set kafka = {} %}
 
 {%- do kafka.update({
-  'broker_id': broker_id,
-  'zookeeper_connect': zookeeper_connect,
-  'uid': uid,
   'userhome': userhome,
   'prefix': prefix,
-  'java_home': java_home,
   'version': version,
   'version_name': version_name,
   'source_url': source_url,
-  'bind_address': bind_address,
-  'data_dir': data_dir,
   'real_home': real_home
   }) %}
