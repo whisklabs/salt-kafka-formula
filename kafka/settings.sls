@@ -23,7 +23,8 @@
   'zookeeper_connect': gc.get('zookeeper_connect', pc.get('zookeeper_connect', 'localhost:2181')),
   'log_dirs': gc.get('log_dirs', pc.get('log_dirs', ['/tmp/kafka-logs'])),
   'num_partitions': gc.get('num_partitions', pc.get('num_partitions', 2)),
-  'host_name': gc.get('host_name', pc.host_name)
+  'host_name': gc.get('host_name', pc.host_name),
+  'advertised_host_name': gc.get('advertised_host_name', pc.advertised_host_name)
   } %}
 
 {%- set kafka = {} %}

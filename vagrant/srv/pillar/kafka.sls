@@ -5,6 +5,7 @@ kafka:
     zookeeper_connect: localhost:2181
     broker_id: 0
     host_name: 'salt-master'
+    advertised_host_name: 'salt-master'
 
 zookeeper:
   config:

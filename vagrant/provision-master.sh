@@ -30,8 +30,6 @@ EOF
   cat <<EOF >/etc/salt/master.d/fileserver.conf
 fileserver_backend:
   - roots
-gitfs_remotes:
-  - https://github.com/saltstack-formulas/zookeeper-formula.git
 EOF
 
   cat <<EOF >/etc/salt/master.d/reactor.conf
